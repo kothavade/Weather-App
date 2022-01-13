@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.weatherproject.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,62 +35,35 @@ class MainActivity : AppCompatActivity() {
             val result = httpGet(urlString)
             val dataJSON = parseToJsonElement(result).jsonObject
             //val main = dataJSON.jsonObject.get(:)
-            findViewById<TextView>(R.id.location).text= dataJSON.toString()
-//            val main = dataJSON["main"]
-//            val temp = main["temp"]
-//            findViewById<TextView>(R.id.temp).text=
-
+            findViewById<TextView>(R.id.location).text= dataJSON["name"].toString().replace("\"", "")
+            val temperature = dataJSON.get("main")?.jsonObject?.get("temp")
+            if(temperature!=null) {
+                findViewById<TextView>(R.id.temp).text = "$temperature°F"
+            }
 
         }
-//        val dataJSON = Json.decodeFromString<weatherData>(dataString)
-//        findViewById<TextView>(R.id.location).text = dataJSON.name
-//        findViewById<TextView>(R.id.temp) = dataJSON.main.temp.toString()
-
-
-
-
-
-
     }
 
     private suspend fun httpGet(myURL: String): String {
-
         val result = withContext(Dispatchers.IO) {
             val inputStream: InputStream
-
-
-            // create URL
             val url: URL = URL(myURL)
-
-            // create HttpURLConnection
             val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-            // make GET request to the given URL
             conn.connect()
-
-            // receive response as inputStream
             inputStream = conn.inputStream
-
-            // convert inputstream to string
             convertInputStreamToString(inputStream)
-
-
         }
         return result
-
     }
 
     private fun convertInputStreamToString(inputStream: InputStream): String {
         val bufferedReader: BufferedReader? = BufferedReader(InputStreamReader(inputStream))
-
         var line:String? = bufferedReader?.readLine()
         var result:String = ""
-
         while (line != null) {
             result += line
             line = bufferedReader?.readLine()
         }
-
         inputStream.close()
         return result
     }
