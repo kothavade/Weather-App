@@ -16,7 +16,6 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.lang.IllegalArgumentException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         var stateInfo = ""
         var zipCode = ""
         val zipCodeKey = "9f25f690-74ea-11ec-b891-e59a9acda4e4"
-        var zipValid: Boolean = true
+        var zipValid = true
         val country = "us"
         binding.button.setOnClickListener{
             binding.button.isEnabled=false
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                         val temp = dataJSON2.jsonObject.get("current")?.jsonObject?.get("temp").toString().toDouble()
                         val tempAsInt = temp.toInt()
                         binding.temp.text =
-                            "${tempAsInt.toString()}°F"
+                            "${tempAsInt}°F"
                     }
                     catch(_: FileNotFoundException) {
                         Toast.makeText(applicationContext,"Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
@@ -122,12 +121,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }
+    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(
+            Locale.getDefault()
+        ) else it.toString()
+    } }
 
     private suspend fun httpGet(myURL: String): String {
         val result = withContext(Dispatchers.IO) {
             val inputStream: InputStream
-            val url: URL = URL(myURL)
+            val url = URL(myURL)
             val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
             conn.connect()
             inputStream = conn.inputStream
@@ -137,12 +140,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convertInputStreamToString(inputStream: InputStream): String {
-        val bufferedReader: BufferedReader? = BufferedReader(InputStreamReader(inputStream))
-        var line:String? = bufferedReader?.readLine()
-        var result:String = ""
+        val bufferedReader: BufferedReader = BufferedReader(InputStreamReader(inputStream))
+        var line:String? = bufferedReader.readLine()
+        var result = ""
         while (line != null) {
             result += line
-            line = bufferedReader?.readLine()
+            line = bufferedReader.readLine()
         }
         inputStream.close()
         return result
