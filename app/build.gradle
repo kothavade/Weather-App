@@ -7,11 +7,6 @@ plugins {
 android {
     compileSdk 31
 
-    buildFeatures {
-        viewBinding = true
-    }
-
-
     defaultConfig {
         applicationId "com.example.weatherproject"
         minSdk 30
@@ -34,6 +29,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
