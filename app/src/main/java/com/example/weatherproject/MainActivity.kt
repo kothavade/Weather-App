@@ -1,5 +1,7 @@
 package com.example.weatherproject
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -20,10 +22,6 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.util.*
-import java.time.*
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAccessor
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,142 +33,108 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-        var stateInfo = ""
-        var zipCode = ""
-        val zipCodeKey = "9f25f690-74ea-11ec-b891-e59a9acda4e4"
-        var zipValid = true
+        val key = "b78ef799a58e72c75824c2eeb7077223"//"a5cf2a811a281fccc912a1b0e55c03e2"
+        val units = "imperial"
+        val exclude = "minutely,daily"
         val country = "us"
-        binding.button.setOnClickListener{
-            binding.button.isEnabled=false
-//            val zipAPI = lifecycleScope.launch{
-//                zipCode = binding.input.text.toString()
-//                Log.d("TAG","zipCode: $zipCode")
-//                val zipCodeString = "https://app.zipcodebase.com/api/v1/search?apikey=$zipCodeKey&codes=$zipCode&country=${country.uppercase()}"
-//                Log.d("TAG","zipCodeString: $zipCodeString")
-//                val result = httpGet(zipCodeString)
-//                Log.d("TAG","result: $result")
-//                val dataJSON = parseToJsonElement(result)
-//                Log.d("TAG","dataJson: $dataJSON")
-//                try{
-//                    if(dataJSON.jsonObject.get("results")?.jsonObject?.get(zipCode)!=null){
-//                        zipValid=true
-//                        stateInfo = dataJSON.jsonObject.get("results")?.jsonObject?.get(zipCode)?.jsonArray?.get(0)?.jsonObject?.get("state_code").toString().replace("\"", "") + ", ${country.uppercase()}"
-//                        Log.d("TAG","country is true")
-//                    }
-//                    else {
-//                        zipValid = false
-//                    }
-//                }catch (_:IllegalArgumentException){
-//                    zipValid=false
-//                }
-//
-//            }
+        binding.button.setOnClickListener {
+            binding.button.isEnabled = false
+            lifecycleScope.launch {
 
-            // zipCheck = """^\d{5}(-\d{4})?$""".toRegex()
-            lifecycleScope.launch{
-                //zipAPI.join()
-                Log.d("TAG","zipAPIJOINED")
-//                if(zipValid){
-                    Log.d("TAG","ZIP IS VALID")
+                val zipCode = binding.input.text.toString()
+                val weatherString = "https://api.openweathermap.org/geo/1.0/zip?zip=$zipCode,$country&appid=$key"
 
-                    zipCode = binding.input.text.toString()
+                try {
+                    val result = httpGet(weatherString)
+                    val dataJSON = parseToJsonElement(result)
+                    println(dataJSON.toString())
+                    Log.d("TAG", "cod: ${dataJSON.jsonObject.get("cod").toString()}")
 
-                    val key = "b78ef799a58e72c75824c2eeb7077223"//"a5cf2a811a281fccc912a1b0e55c03e2"
-                    val units = "imperial"
-                    val exclude = "minutely,daily"
+                    binding.location.text =
+                        dataJSON.jsonObject.get("name").toString().replace("\"", "")
 
-                    val weatherString = "https://api.openweathermap.org/geo/1.0/zip?zip=$zipCode,$country&appid=$key"
+                    val lat = dataJSON.jsonObject.get("lat").toString()
+                    val lon = dataJSON.jsonObject.get("lon").toString()
+                    binding.coord.text = "Coordinates: $lat, $lon"
+                    val oneCallString =
+                        "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$key&exclude=$exclude&units=$units"
+                    Log.d("Tag", oneCallString)
+                    val result2 = httpGet(oneCallString)
+                    val dataJSON2 = parseToJsonElement(result2)
+                    Log.d("Tag", dataJSON2.toString())
+                    for (i in 0..3) {
+                        when (i) {
+                            0 -> {
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val timeString = temp?.get("dt").toString().toLong()
+                                val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
+                                val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
+                                val imgId = weather?.get("icon").toString().replace("\"", "")
+                                val imgString =
+                                    "https://openweathermap.org/img/wn/$imgId@4x.png"
+                                val desc = weather?.get("description").toString().replace("\"", "")
 
+                                binding.time1.text = time
+                                binding.temp1.text = "${temp?.get("temp")}°F"
+                                binding.imageView1.setImageBitmap(imgGet(imgString))
+                                binding.desc1.text = desc.capitalizeWords()
+                            }
+                            1 -> {
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val timeString = temp?.get("dt").toString().toLong()
+                                val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
+                                val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
+                                val imgId = weather?.get("icon").toString().replace("\"", "")
+                                val imgString =
+                                    "https://openweathermap.org/img/wn/$imgId@4x.png"
+                                val desc = weather?.get("description").toString().replace("\"", "")
 
-                    try {
-                        val result = httpGet(weatherString)
-                        val dataJSON = parseToJsonElement(result)
-                        println(dataJSON.toString())
-                        Log.d("TAG","cod: ${dataJSON.jsonObject.get("cod").toString()}")
+                                binding.time2.text = time
+                                binding.temp2.text = "${temp?.get("temp")}°F"
+                                binding.imageView2.setImageBitmap(imgGet(imgString))
+                                binding.desc2.text = desc.capitalizeWords()
+                            }
+                            2 -> {
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val timeString = temp?.get("dt").toString().toLong()
+                                val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
+                                val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
+                                val imgId = weather?.get("icon").toString().replace("\"", "")
+                                val imgString =
+                                    "https://openweathermap.org/img/wn/$imgId@4x.png"
+                                val desc = weather?.get("description").toString().replace("\"", "")
 
-                        binding.location.text =
-                            dataJSON.jsonObject.get("name").toString().replace("\"", "") //+ ", " + stateInfo
+                                binding.time3.text = time
+                                binding.temp3.text = "${temp?.get("temp")}°F"
+                                binding.imageView3.setImageBitmap(imgGet(imgString))
+                                binding.desc3.text = desc.capitalizeWords()
+                            }
+                            3 -> {
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val timeString = temp?.get("dt").toString().toLong()
+                                val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
+                                val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
+                                val imgId = weather?.get("icon").toString().replace("\"", "")
+                                val imgString =
+                                    "https://openweathermap.org/img/wn/$imgId@4x.png"
+                                val desc = weather?.get("description").toString().replace("\"", "")
 
-                        val lat = dataJSON.jsonObject.get("lat").toString()
-                        val lon = dataJSON.jsonObject.get("lon").toString()
-                        binding.coord.text="Lat: $lat, Long $lon"
-                        val oneCallString =
-                            "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$key&exclude=$exclude&units=$units"
-                        Log.d("Tag",oneCallString)
-                        val result2 = httpGet(oneCallString)
-                        val dataJSON2 = parseToJsonElement(result2)
-                        Log.d("Tag",dataJSON2.toString())
-                        //binding.temp.text =
-                        //    dataJSON2.jsonObject.get("current")?.jsonObject?.get("weather")?.jsonArray?.get(0)?.jsonObject?.get("description").toString().replace("\"", "").capitalizeWords()
-                        for(i in 0..3){
-                            when (i){
-                               0->{
-                                    val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
-                                    Log.d("Tag", temp.toString())
-                                    val timeString = temp?.get("dt").toString().toLong()
-                                    val  date =  SimpleDateFormat("hh:mm").format((timeString*1000))
-                                    Log.d("Tag", timeString.toString())
-                                    binding.temp1.text =
-                                        "Time: $date, ${temp?.get("temp")}°F"
-                               }
-                                1 ->{
-                                    val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
-                                    Log.d("Tag", temp.toString())
-                                    val timeString = temp?.get("dt").toString().toLong()
-                                    val  date =  SimpleDateFormat("hh:mm").format((timeString*1000))
-                                    Log.d("Tag", timeString.toString())
-                                    binding.temp2.text =
-                                        "Time: $date, ${temp?.get("temp")}°F"
-                                }
-                                2->{
-                                    val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
-                                    Log.d("Tag", temp.toString())
-                                    val timeString = temp?.get("dt").toString().toLong()
-                                    val  date =  SimpleDateFormat("hh:mm").format((timeString*1000))
-                                    Log.d("Tag", timeString.toString())
-                                    binding.temp3.text =
-                                        "Time: $date, ${temp?.get("temp")}°F"
-                                }
-                                3->{
-                                    val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
-                                    Log.d("Tag", temp.toString())
-                                    val timeString = temp?.get("dt").toString().toLong()
-                                    val  date =  SimpleDateFormat("hh:mm").format((timeString*1000))
-                                    Log.d("Tag", timeString.toString())
-                                    binding.temp4.text =
-                                        "Time: $date, ${temp?.get("temp")}°F"
-                                }
+                                binding.time4.text = time
+                                binding.temp4.text = "${temp?.get("temp")}°F"
+                                binding.imageView4.setImageBitmap(imgGet(imgString))
+                                binding.desc4.text = desc.capitalizeWords()
                             }
                         }
-
                     }
-                    catch(_: FileNotFoundException) {
-                        Toast.makeText(applicationContext,"Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
-                        stateInfo = ""
-                        binding.temp1.text = ""
-                        binding.location.text = ""
-                    }
-//                }
-//                else {
-//                    Toast.makeText(applicationContext,"Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
-//                    stateInfo = ""
-//                    binding.temp.text = ""
-//                    binding.location.text = ""
-//                }
+                } catch (_: FileNotFoundException) {
+                    Toast.makeText(applicationContext, "Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
+                    binding.temp1.text = ""
+                    binding.location.text = ""
+                }
             }
-            binding.button.isEnabled=true
+            binding.button.isEnabled = true
         }
-
-
     }
-
-    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
-    } }
 
     private suspend fun httpGet(myURL: String): String {
         val result = withContext(Dispatchers.IO) {
@@ -184,9 +148,20 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    private suspend fun imgGet(myURL: String): Bitmap {
+        val inputStream: InputStream
+        withContext(Dispatchers.IO) {
+            val url = URL(myURL)
+            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+            conn.connect()
+            inputStream = conn.inputStream
+        }
+        return BitmapFactory.decodeStream(inputStream)
+    }
+
     private fun convertInputStreamToString(inputStream: InputStream): String {
         val bufferedReader: BufferedReader = BufferedReader(InputStreamReader(inputStream))
-        var line:String? = bufferedReader.readLine()
+        var line: String? = bufferedReader.readLine()
         var result = ""
         while (line != null) {
             result += line
@@ -195,4 +170,31 @@ class MainActivity : AppCompatActivity() {
         inputStream.close()
         return result
     }
+
+    private fun imageMappings(owmId: String): String {
+        when (owmId) {
+            "01d" -> return "f00d"
+            "01n" -> return "f02e"
+            "10d" -> return "f019"
+            "13d" -> return "f01b"
+            "50d" -> return "f014"
+            "04d" -> return "f013"
+            "03d" -> return "f002"
+            "04n" -> return "f086"
+            "11d" -> return "f01e"
+            "02d" -> return "f00c"
+            "09d" -> return "f017"
+            "02n" -> return "f081"
+            "03n" -> return "f07e"
+            "09n" -> return "f026"
+            "10n" -> return "f028"
+            "11n" -> return "f02c"
+            "13n" -> return "f02a"
+            "50n" -> return "f04a"
+            else -> return "moon1"
+        }
+    }
+
+    private fun String.capitalizeWords(): String =
+        split(" ").joinToString(" ") { it.lowercase().capitalize() }
 }

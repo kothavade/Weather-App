@@ -7,74 +7,275 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
+    <TextView
+            android:text="Enter Zip Code:"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center">
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/input"/>
 
-        <TextView
-                android:text="Enter Zip Code:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:text="08852"
+            android:ems="10"
+            android:id="@+id/input"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintBottom_toTopOf="@+id/view"/>
 
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:text="08852"
-                android:ems="10"
-                android:id="@+id/input"/>
+    <Button
+            android:text="Check"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/input"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@+id/input"
+            app:layout_constraintBottom_toBottomOf="@+id/input"/>
 
-        <Button
-                android:text="Check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/input"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/input"
+            app:layout_constraintEnd_toEndOf="@+id/button"
+            android:id="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/location"
+            />
 
-        <TextView
-                android:text="Location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/location"
-                />
+    <TextView
+            android:text="Location"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:id="@+id/location"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/coord"/>
 
-        <TextView
+    <TextView
             android:id="@+id/coord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Coord" />
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:text="Coord"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:layout_constraintStart_toStartOf="@+id/location"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/location"/>
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Temp"
-                android:id="@+id/temp1"
-                />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Temp"
-            android:id="@+id/temp2"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Temp"
-            android:id="@+id/temp3"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Temp"
-            android:id="@+id/temp4"
-            />
+    <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view2"
+            app:layout_constraintStart_toStartOf="@+id/coord"
+            app:layout_constraintTop_toBottomOf="@+id/coord"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/coord"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"/>
 
-    </LinearLayout>
+    <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@+id/coord"
+            app:layout_constraintEnd_toEndOf="@+id/coord"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tableLayout"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:id="@+id/imageView1"
+                        />
+
+                <TextView
+                        android:text="Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time1"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Temp"
+                        android:id="@+id/temp1"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:text="Desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desc1"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:id="@+id/imageView2"
+                        />
+
+                <TextView
+                        android:text="Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time2"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Temp"
+                        android:id="@+id/temp2"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:text="Desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desc2"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:id="@+id/imageView3"
+                        />
+
+                <TextView
+                        android:text="Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time3"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Temp"
+                        android:id="@+id/temp3"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:text="Desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desc3"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:id="@+id/imageView4"
+                        />
+
+                <TextView
+                        android:text="Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time4"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Temp"
+                        android:id="@+id/temp4"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+                <TextView
+                        android:text="Desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desc4"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
