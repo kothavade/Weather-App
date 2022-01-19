@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.weatherproject.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +39,40 @@ class MainActivity : AppCompatActivity() {
         val units = "imperial"
         val exclude = "minutely,daily"
         val country = "us"
+
+        fun setLoading() {
+            binding.temp1.text="Loading..."
+            binding.temp2.text="Loading..."
+            binding.temp3.text="Loading..."
+            binding.temp4.text="Loading..."
+
+            binding.desc1.text="Loading..."
+            binding.desc2.text="Loading..."
+            binding.desc3.text="Loading..."
+            binding.desc4.text="Loading..."
+
+            binding.time1.text="Loading..."
+            binding.time2.text="Loading..."
+            binding.time3.text="Loading..."
+            binding.time4.text="Loading..."
+
+            Glide.with(this)
+                .load(R.drawable.loading)
+                .into(binding.imageView1)
+            Glide.with(this)
+                .load(R.drawable.loading)
+                .into(binding.imageView2)
+            Glide.with(this)
+                .load(R.drawable.loading)
+                .into(binding.imageView3)
+            Glide.with(this)
+                .load(R.drawable.loading)
+                .into(binding.imageView4)
+
+        }
+
         binding.button.setOnClickListener {
+            setLoading()
             binding.button.isEnabled = false
             lifecycleScope.launch {
 
@@ -128,8 +163,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 } catch (_: FileNotFoundException) {
                     Toast.makeText(applicationContext, "Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
-                    binding.temp1.text = ""
-                    binding.location.text = ""
+                    setLoading()
                 }
             }
             binding.button.isEnabled = true
@@ -171,30 +205,7 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun imageMappings(owmId: String): String {
-        when (owmId) {
-            "01d" -> return "f00d"
-            "01n" -> return "f02e"
-            "10d" -> return "f019"
-            "13d" -> return "f01b"
-            "50d" -> return "f014"
-            "04d" -> return "f013"
-            "03d" -> return "f002"
-            "04n" -> return "f086"
-            "11d" -> return "f01e"
-            "02d" -> return "f00c"
-            "09d" -> return "f017"
-            "02n" -> return "f081"
-            "03n" -> return "f07e"
-            "09n" -> return "f026"
-            "10n" -> return "f028"
-            "11n" -> return "f02c"
-            "13n" -> return "f02a"
-            "50n" -> return "f04a"
-            else -> return "moon1"
-        }
-    }
-
     private fun String.capitalizeWords(): String =
-        split(" ").joinToString(" ") { it.lowercase().capitalize() }
+        split(" ").joinToString(" ") { it.lowercase()
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } }
 }
