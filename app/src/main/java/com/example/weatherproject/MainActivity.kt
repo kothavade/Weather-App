@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         val country = "us"
 
         fun setLoading() {
+            binding.location.text="Loading..."
+            binding.coord.text="Loading..."
+
+
             binding.temp1.text="Loading..."
             binding.temp2.text="Loading..."
             binding.temp3.text="Loading..."
