@@ -211,6 +211,7 @@ class MainActivity : AppCompatActivity() {
             }
             binding.button.isEnabled = true
         }
+        binding.button.performClick()
     }
 
     private suspend fun httpGet(inputURL: String): String {
