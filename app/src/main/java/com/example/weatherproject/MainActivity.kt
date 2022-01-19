@@ -101,10 +101,31 @@ class MainActivity : AppCompatActivity() {
                     val result2 = httpGet(oneCallString)
                     val dataJSON2 = parseToJsonElement(result2)
                     Log.d("Tag", dataJSON2.toString())
+
+                    val rightNow = Calendar.getInstance()
+                    var currHour = rightNow.get(Calendar.HOUR_OF_DAY)
+                    var hour1  = 0
+                    var hour2 = 0
+                    var hour3 = 0
+
+                    if(currHour+12 <=23)
+                        currHour+=12
+                    else currHour-=12
+
+                    if (currHour+1 <= 23)
+                        hour1 = currHour+1
+                    else hour1 = 23-currHour
+                    if (hour1+1 <= 23)
+                        hour2 = hour1+1
+                    else hour2 = 23-hour1
+                    if (hour2+1 <= 23)
+                        hour3 = hour2+1
+                    else hour3 = 23-hour2
+
                     for (i in 0..3) {
                         when (i) {
                             0 -> {
-                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(currHour)?.jsonObject
                                 val timeString = temp?.get("dt").toString().toLong()
                                 val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
                                 val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
@@ -122,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                                 binding.desc1.text = desc.capitalizeWords()
                             }
                             1 -> {
-                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(hour1)?.jsonObject
                                 val timeString = temp?.get("dt").toString().toLong()
                                 val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
                                 val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
@@ -140,7 +161,7 @@ class MainActivity : AppCompatActivity() {
                                 binding.desc2.text = desc.capitalizeWords()
                             }
                             2 -> {
-                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(hour2)?.jsonObject
                                 val timeString = temp?.get("dt").toString().toLong()
                                 val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
                                 val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
@@ -158,7 +179,7 @@ class MainActivity : AppCompatActivity() {
                                 binding.desc3.text = desc.capitalizeWords()
                             }
                             3 -> {
-                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
+                                val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(hour3)?.jsonObject
                                 val timeString = temp?.get("dt").toString().toLong()
                                 val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
                                 val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
