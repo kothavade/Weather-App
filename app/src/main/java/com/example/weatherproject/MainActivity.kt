@@ -115,7 +115,10 @@ class MainActivity : AppCompatActivity() {
 
                                 binding.time1.text = time
                                 binding.temp1.text = "${temp?.get("temp")}°F"
-                                binding.imageView1.setImageBitmap(imgGet(imgString))
+                                Glide.with(this@MainActivity)
+                                    .load(imgString)
+                                    .into(binding.imageView1)
+                                //binding.imageView1.setImageBitmap(imgGet(imgString))
                                 binding.desc1.text = desc.capitalizeWords()
                             }
                             1 -> {
@@ -130,7 +133,10 @@ class MainActivity : AppCompatActivity() {
 
                                 binding.time2.text = time
                                 binding.temp2.text = "${temp?.get("temp")}°F"
-                                binding.imageView2.setImageBitmap(imgGet(imgString))
+                                Glide.with(this@MainActivity)
+                                    .load(imgString)
+                                    .into(binding.imageView2)
+                                //binding.imageView2.setImageBitmap(imgGet(imgString))
                                 binding.desc2.text = desc.capitalizeWords()
                             }
                             2 -> {
@@ -145,7 +151,10 @@ class MainActivity : AppCompatActivity() {
 
                                 binding.time3.text = time
                                 binding.temp3.text = "${temp?.get("temp")}°F"
-                                binding.imageView3.setImageBitmap(imgGet(imgString))
+                                Glide.with(this@MainActivity)
+                                    .load(imgString)
+                                    .into(binding.imageView3)
+                                //binding.imageView3.setImageBitmap(imgGet(imgString))
                                 binding.desc3.text = desc.capitalizeWords()
                             }
                             3 -> {
@@ -160,7 +169,10 @@ class MainActivity : AppCompatActivity() {
 
                                 binding.time4.text = time
                                 binding.temp4.text = "${temp?.get("temp")}°F"
-                                binding.imageView4.setImageBitmap(imgGet(imgString))
+                                Glide.with(this@MainActivity)
+                                    .load(imgString)
+                                    .into(binding.imageView4)
+                                //binding.imageView4.setImageBitmap(imgGet(imgString))
                                 binding.desc4.text = desc.capitalizeWords()
                             }
                         }
