@@ -130,18 +130,6 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    //Using Glide for images instead due to animated Gif support, but this works just as well for static images
-    private suspend fun bitmapGet(inputURL: String): Bitmap {
-        val inputStream: InputStream
-        withContext(Dispatchers.IO) {
-            val url = URL(inputURL)
-            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-            conn.connect()
-            inputStream = conn.inputStream
-        }
-        return BitmapFactory.decodeStream(inputStream)
-    }
-
     private fun inputStreamToString(inputStream: InputStream): String {
         val bufferedReader: BufferedReader = BufferedReader(InputStreamReader(inputStream))
         var line: String? = bufferedReader.readLine()
