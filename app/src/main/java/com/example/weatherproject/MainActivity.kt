@@ -13,9 +13,7 @@ import com.example.weatherproject.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json.Default.parseToJsonElement
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -86,41 +84,41 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
 
                 val zipCode = binding.input.text.toString()
-                val weatherString = "https://api.openweathermap.org/geo/1.0/zip?zip=$zipCode,$country&appid=$key"
+                val geoURL = "https://api.openweathermap.org/geo/1.0/zip?zip=$zipCode,$country&appid=$key"
 
                 try {
-                    val result = httpGet(weatherString)
-                    val dataJSON = parseToJsonElement(result)
+                    val geoResult = httpGet(geoURL)
+                    val geoJSON = JSONObject(geoResult)
+                    //val geoJSON = parseToJsonElement(geoResult)
 
                     binding.location.text =
-                        dataJSON.jsonObject.get("name").toString().replace("\"", "")
+                        geoJSON.get("name").toString().replace("\"", "")
 
-                    val lat = dataJSON.jsonObject.get("lat").toString()
-                    val lon = dataJSON.jsonObject.get("lon").toString()
+                    val lat = geoJSON.get("lat").toString()
+                    val lon = geoJSON.get("lon").toString()
                     binding.coord.text = "Coordinates: $lat, $lon"
-                    val oneCallString =
+                    val weatherURL =
                         "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$key&exclude=$exclude&units=$units"
-                    val result2 = httpGet(oneCallString)
-                    val dataJSON2 = parseToJsonElement(result2)
+                    val weatherResult = httpGet(weatherURL)
+                    val weatherJSON = JSONObject(weatherResult)
 
 
 
                     for(i in 0..3){
-                        val temp = dataJSON2.jsonObject.get("hourly")?.jsonArray?.get(i)?.jsonObject
-                        val timeString = temp?.get("dt").toString().toLong()
+                        val temp = weatherJSON.getJSONArray("hourly").getJSONObject(i)
+                        val timeString = temp.get("dt").toString().toLong()
                         val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
-                        val weather = temp?.get("weather")?.jsonArray?.get(0)?.jsonObject
-                        val imgId = weather?.get("icon").toString().replace("\"", "")
+                        val weather = temp.getJSONArray("weather").getJSONObject(0)
+                        val imgId = weather.get("icon").toString().replace("\"", "")
                         val imgString =
                             "https://openweathermap.org/img/wn/$imgId@4x.png"
-                        val desc = weather?.get("description").toString().replace("\"", "")
+                        val desc = weather.get("description").toString().replace("\"", "")
 
                         timeList[i].text = time
                         tempList[i].text = "${temp?.get("temp")}°F"
                         Glide.with(this@MainActivity)
                             .load(imgString)
                             .into(imgList[i])
-                                //binding.imageView1.setImageBitmap(bitmapGet(imgString))
                         descList[i].text = desc.capitalizeWords()
                     }
                 } catch (_: FileNotFoundException) {
