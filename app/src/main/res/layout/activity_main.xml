@@ -7,15 +7,15 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <ImageView
-            android:layout_width="224dp"
-            android:layout_height="253dp"
-            tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coord"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="72dp"
+        android:layout_height="74dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coord" />
 
     <TextView
             android:text="Enter Zip Code:"
@@ -120,82 +120,80 @@
                 android:layout_weight="1">
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:id="@+id/imageView1"
-                        />
+                    android:id="@+id/imageView1"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                        android:text="Time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/time1"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/time1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:textSize="20sp" />
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Temp"
-                        android:id="@+id/temp1"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/temp1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Temp"
+                    android:textSize="16sp" />
 
                 <TextView
-                        android:text="Desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/desc1"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/desc1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Desc"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:id="@+id/imageView2"
-                        />
+                    android:id="@+id/imageView2"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                        android:text="Time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/time2"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/time2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:textSize="20sp" />
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Temp"
-                        android:id="@+id/temp2"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/temp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Temp"
+                    android:textSize="16sp" />
 
                 <TextView
-                        android:text="Desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/desc2"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/desc2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Desc"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -207,82 +205,80 @@
                 android:layout_weight="1">
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:id="@+id/imageView3"
-                        />
+                    android:id="@+id/imageView3"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                        android:text="Time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/time3"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/time3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:textSize="20sp" />
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Temp"
-                        android:id="@+id/temp3"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/temp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Temp"
+                    android:textSize="16sp" />
 
                 <TextView
-                        android:text="Desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/desc3"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/desc3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Desc"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:id="@+id/imageView4"
-                        />
+                    android:id="@+id/imageView4"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                        android:text="Time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/time4"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/time4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:textSize="20sp" />
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Temp"
-                        android:id="@+id/temp4"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/temp4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Temp"
+                    android:textSize="16sp" />
 
                 <TextView
-                        android:text="Desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/desc4"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="10dp"/>
+                    android:id="@+id/desc4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Desc"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

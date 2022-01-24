@@ -2,13 +2,18 @@ package com.example.weatherproject
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
+import coil.Coil
+import coil.ImageLoader
+import coil.decode.ImageDecoderDecoder
+import coil.load
 import com.example.weatherproject.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +36,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        val context = binding.root.context
         setContentView(binding.root)
+
+        val imageLoader = ImageLoader.Builder(context)
+            .componentRegistry{
+                add(ImageDecoderDecoder(context = context))
+            }
+            .build()
+        Coil.setImageLoader(imageLoader)
+
 
         val key = "b78ef799a58e72c75824c2eeb7077223"//"a5cf2a811a281fccc912a1b0e55c03e2"
         val units = "imperial"
@@ -48,20 +62,24 @@ class MainActivity : AppCompatActivity() {
             val loading = "Loading..."
             binding.location.text = loading
             binding.coord.text = loading
-            binding.imageView.setImageDrawable(null)
+            //binding.imageView.setImageDrawable
+            binding.progressBar.visibility = View.VISIBLE;
+
+
 
             for (i in 0..3) {
                 timeList[i].text = loading
                 tempList[i].text = loading
                 descList[i].text = loading
-                Glide.with(this).load(R.drawable.loading).into(imgList[i])
+                //imgList[i].load(android.R.drawable.progress_medium_material)
             }
         }
 
         fun setError() {
-            binding.location.text = "Waiting..."
+            binding.location.text = "Enter valid Zip Code..."
             binding.coord.text = ""
-            Glide.with(this).load(R.drawable.loading).into(binding.imageView)
+            //binding.imageView.load(R.drawable.loading)
+            binding.progressBar.visibility = View.VISIBLE;
 
             for (i in 0..3) {
                 timeList[i].text = ""
@@ -96,8 +114,11 @@ class MainActivity : AppCompatActivity() {
 
                     for (i in 0..3) {
                         val temp = weatherJSON.getJSONArray("hourly").getJSONObject(i)
-                        val timeString = temp.get("dt").toString().toLong()
-                        val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
+                        val timeInt = temp.get("dt").toString().toInt()
+                        //Docs say time returns UTC, yet it gives current time-zone accurate time, not sure why
+                        //val timeOffset = weatherJSON.get("timezone_offset").toString().toInt()
+                        val timeLong = (timeInt).toLong()
+                        val time = SimpleDateFormat("hh:mm a").format((timeLong * 1000))
                         val weather = temp.getJSONArray("weather").getJSONObject(0)
                         val imgId = weather.get("icon").toString().replace("\"", "")
                         val imgString = "https://openweathermap.org/img/wn/$imgId@4x.png"
@@ -105,9 +126,10 @@ class MainActivity : AppCompatActivity() {
 
                         timeList[i].text = time
                         tempList[i].text = "${temp?.get("temp")}°F"
-                        Glide.with(this@MainActivity).load(imgString).into(imgList[i])
+                        imgList[i].load(imgString)
                         descList[i].text = desc.capitalizeWords()
                     }
+                    binding.progressBar.visibility = View.GONE
                 } catch (_: FileNotFoundException) {
                     Toast.makeText(applicationContext, "Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
                     setError()
