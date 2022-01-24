@@ -38,14 +38,11 @@ class MainActivity : AppCompatActivity() {
         val exclude = "minutely,daily"
         val country = "us"
 
-        val timeList: List<TextView> =
-            listOf(binding.time1,binding.time2,binding.time3,binding.time4)
-        val tempList: List<TextView> =
-            listOf(binding.temp1,binding.temp2,binding.temp3,binding.temp4)
-        val descList: List<TextView> =
-            listOf(binding.desc1,binding.desc2,binding.desc3,binding.desc4)
+        val timeList: List<TextView> = listOf(binding.time1, binding.time2, binding.time3, binding.time4)
+        val tempList: List<TextView> = listOf(binding.temp1, binding.temp2, binding.temp3, binding.temp4)
+        val descList: List<TextView> = listOf(binding.desc1, binding.desc2, binding.desc3, binding.desc4)
         val imgList: List<ImageView> =
-            listOf(binding.imageView1,binding.imageView2,binding.imageView3,binding.imageView4)
+            listOf(binding.imageView1, binding.imageView2, binding.imageView3, binding.imageView4)
 
         fun setLoading() {
             val loading = "Loading..."
@@ -53,27 +50,23 @@ class MainActivity : AppCompatActivity() {
             binding.coord.text = loading
             binding.imageView.setImageDrawable(null)
 
-            for(i in 0..3){
-                timeList[i].text=loading
-                tempList[i].text=loading
-                descList[i].text=loading
-                Glide.with(this)
-                    .load(R.drawable.loading)
-                    .into(imgList[i])
+            for (i in 0..3) {
+                timeList[i].text = loading
+                tempList[i].text = loading
+                descList[i].text = loading
+                Glide.with(this).load(R.drawable.loading).into(imgList[i])
             }
         }
 
         fun setError() {
             binding.location.text = "Waiting..."
             binding.coord.text = ""
-            Glide.with(this)
-                .load(R.drawable.loading)
-                .into(binding.imageView)
+            Glide.with(this).load(R.drawable.loading).into(binding.imageView)
 
-            for(i in 0..3){
-                timeList[i].text=""
-                tempList[i].text=""
-                descList[i].text=""
+            for (i in 0..3) {
+                timeList[i].text = ""
+                tempList[i].text = ""
+                descList[i].text = ""
                 imgList[i].setImageDrawable(null)
             }
         }
@@ -91,8 +84,7 @@ class MainActivity : AppCompatActivity() {
                     val geoJSON = JSONObject(geoResult)
                     //val geoJSON = parseToJsonElement(geoResult)
 
-                    binding.location.text =
-                        geoJSON.get("name").toString().replace("\"", "")
+                    binding.location.text = geoJSON.get("name").toString().replace("\"", "")
 
                     val lat = geoJSON.get("lat").toString()
                     val lon = geoJSON.get("lon").toString()
@@ -102,23 +94,18 @@ class MainActivity : AppCompatActivity() {
                     val weatherResult = httpGet(weatherURL)
                     val weatherJSON = JSONObject(weatherResult)
 
-
-
-                    for(i in 0..3){
+                    for (i in 0..3) {
                         val temp = weatherJSON.getJSONArray("hourly").getJSONObject(i)
                         val timeString = temp.get("dt").toString().toLong()
                         val time = SimpleDateFormat("hh:mm a").format((timeString * 1000))
                         val weather = temp.getJSONArray("weather").getJSONObject(0)
                         val imgId = weather.get("icon").toString().replace("\"", "")
-                        val imgString =
-                            "https://openweathermap.org/img/wn/$imgId@4x.png"
+                        val imgString = "https://openweathermap.org/img/wn/$imgId@4x.png"
                         val desc = weather.get("description").toString().replace("\"", "")
 
                         timeList[i].text = time
                         tempList[i].text = "${temp?.get("temp")}°F"
-                        Glide.with(this@MainActivity)
-                            .load(imgString)
-                            .into(imgList[i])
+                        Glide.with(this@MainActivity).load(imgString).into(imgList[i])
                         descList[i].text = desc.capitalizeWords()
                     }
                 } catch (_: FileNotFoundException) {
@@ -167,9 +154,7 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun String.capitalizeWords(): String =
-        split(" ").joinToString(" ") {
-            it.lowercase()
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        }
+    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") {
+        it.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    }
 }
