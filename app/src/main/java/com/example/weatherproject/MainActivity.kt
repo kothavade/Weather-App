@@ -1,9 +1,7 @@
 package com.example.weatherproject
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,7 +24,6 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val key = "b78ef799a58e72c75824c2eeb7077223"//"a5cf2a811a281fccc912a1b0e55c03e2"
-        val units = "imperial"
         val exclude = "minutely,daily"
         val country = "us"
 
@@ -58,49 +54,32 @@ class MainActivity : AppCompatActivity() {
         val imgList: List<ImageView> =
             listOf(binding.imageView1, binding.imageView2, binding.imageView3, binding.imageView4)
 
-        fun setLoading() {
+
+        binding.button.setOnClickListener {
             val loading = "Loading..."
             binding.location.text = loading
             binding.coord.text = loading
-            //binding.imageView.setImageDrawable
-            binding.progressBar.visibility = View.VISIBLE;
-
-
-
+            binding.progressBar.visibility = View.VISIBLE
             for (i in 0..3) {
                 timeList[i].text = loading
                 tempList[i].text = loading
                 descList[i].text = loading
                 //imgList[i].load(android.R.drawable.progress_medium_material)
             }
-        }
-
-        fun setError() {
-            binding.location.text = "Enter valid Zip Code..."
-            binding.coord.text = ""
-            //binding.imageView.load(R.drawable.loading)
-            binding.progressBar.visibility = View.VISIBLE;
-
-            for (i in 0..3) {
-                timeList[i].text = ""
-                tempList[i].text = ""
-                descList[i].text = ""
-                imgList[i].setImageDrawable(null)
-            }
-        }
-
-        binding.button.setOnClickListener {
-            setLoading()
             binding.button.isEnabled = false
             lifecycleScope.launch {
 
                 val zipCode = binding.input.text.toString()
                 val geoURL = "https://api.openweathermap.org/geo/1.0/zip?zip=$zipCode,$country&appid=$key"
+                val checkedId = binding.unitSelect.checkedRadioButtonId
+                val units =
+                    if (checkedId == R.id.fahrenheit) "imperial" else if (checkedId == R.id.celcius) "metric" else "standard"
+                val unitSign = if (checkedId == R.id.fahrenheit) "°F" else if (checkedId == R.id.celcius) "°C" else "K"
+                Log.d("Tag", binding.unitSelect.checkedRadioButtonId.toString())
 
                 try {
                     val geoResult = httpGet(geoURL)
                     val geoJSON = JSONObject(geoResult)
-                    //val geoJSON = parseToJsonElement(geoResult)
 
                     binding.location.text = geoJSON.get("name").toString().replace("\"", "")
 
@@ -125,18 +104,28 @@ class MainActivity : AppCompatActivity() {
                         val desc = weather.get("description").toString().replace("\"", "")
 
                         timeList[i].text = time
-                        tempList[i].text = "${temp?.get("temp")}°F"
+                        tempList[i].text = temp.get("temp").toString() + unitSign
                         imgList[i].load(imgString)
                         descList[i].text = desc.capitalizeWords()
                     }
                     binding.progressBar.visibility = View.GONE
                 } catch (_: FileNotFoundException) {
                     Toast.makeText(applicationContext, "Invalid Zip Code. Try Again.", Toast.LENGTH_LONG).show()
-                    setError()
+                    binding.location.text = "Enter valid Zip Code..."
+                    binding.coord.text = ""
+                    //binding.imageView.load(R.drawable.loading)
+                    binding.progressBar.visibility = View.VISIBLE
+                    for (i in 0..3) {
+                        timeList[i].text = ""
+                        tempList[i].text = ""
+                        descList[i].text = ""
+                        imgList[i].setImageDrawable(null)
+                    }
                 }
             }
             binding.button.isEnabled = true
         }
+        binding.fahrenheit.performClick()
         binding.button.performClick()
     }
 
@@ -164,7 +153,6 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun String.capitalizeWords(): String = split(" ").joinToString(" ") {
-        it.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-    }
+    private fun String.capitalizeWords(): String =
+        split(" ").joinToString(" ") { it.lowercase().capitalize() }
 }
