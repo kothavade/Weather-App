@@ -165,7 +165,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                 <TextView
                         android:id="@+id/temp1"
@@ -204,7 +205,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                 <TextView
                         android:id="@+id/temp2"
@@ -250,7 +252,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                 <TextView
                         android:id="@+id/temp3"
@@ -289,7 +292,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                 <TextView
                         android:id="@+id/temp4"
