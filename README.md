@@ -2,7 +2,7 @@
 Returns weather for next four hours on entry of a American Zip Code
 
 Features:
-- Uses the OpenWeatherMap API to display:
+- Uses the [OpenWeatherMap API](https://openweathermap.org/api) to display:
     - Coordinates of entered Zip Code
     - City name
     - Weather for next 4 hours
