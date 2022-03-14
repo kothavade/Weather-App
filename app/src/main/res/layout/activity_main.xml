@@ -137,9 +137,9 @@
             app:layout_constraintTop_toBottomOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp">
 
         <TableRow
                 android:layout_width="match_parent"
@@ -165,16 +165,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
-
-                <TextView
-                        android:id="@+id/temp1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Temp"
-                        android:textSize="16sp"/>
 
                 <TextView
                         android:id="@+id/desc1"
@@ -182,6 +174,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Desc"
+                        android:textSize="16sp"/>
+
+                <TextView
+                        android:id="@+id/temp1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Temp"
                         android:textSize="16sp"/>
 
             </LinearLayout>
@@ -205,16 +205,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
-
-                <TextView
-                        android:id="@+id/temp2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Temp"
-                        android:textSize="16sp"/>
 
                 <TextView
                         android:id="@+id/desc2"
@@ -222,6 +214,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Desc"
+                        android:textSize="16sp"/>
+
+                <TextView
+                        android:id="@+id/temp2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Temp"
                         android:textSize="16sp"/>
 
             </LinearLayout>
@@ -252,16 +252,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
-
-                <TextView
-                        android:id="@+id/temp3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Temp"
-                        android:textSize="16sp"/>
 
                 <TextView
                         android:id="@+id/desc3"
@@ -269,6 +261,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Desc"
+                        android:textSize="16sp"/>
+
+                <TextView
+                        android:id="@+id/temp3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Temp"
                         android:textSize="16sp"/>
 
             </LinearLayout>
@@ -292,16 +292,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Time"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
-
-                <TextView
-                        android:id="@+id/temp4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Temp"
-                        android:textSize="16sp"/>
 
                 <TextView
                         android:id="@+id/desc4"
@@ -309,6 +301,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Desc"
+                        android:textSize="16sp"/>
+
+                <TextView
+                        android:id="@+id/temp4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Temp"
                         android:textSize="16sp"/>
 
             </LinearLayout>
